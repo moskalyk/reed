@@ -21,6 +21,6 @@ As verkle trees are represented by vectors against the typical merkle tree struc
 
 for now, posting gateway pull decision to textile / storage-js is sufficient. eventually, would like to post verifable videos alongside decisions to skynet, and create an NFC based card deck where reeders can tap to a mobile phone as an easy UX, or, perform readings as NFT mints to recipient travellers as social graph gifts (other planet holders).
 
-Q: 'can we pick apart the liquduity of markets with a minimal set of widely distributed memes to map meaning?'
+Q: 'can we pick apart the liquiduty of markets with a minimal set of widely distributed tarot memes to map meaning while creating micro-identity stability?'
 
 🕵️
