@@ -13,7 +13,7 @@ can be performed over ritual periodic timelines beginning from a seed group of i
 
 while capital can be hidden, decisions against tarot NFTs not. due to the fact that aztec allws for any ERC20, the pools provided for can become cybernetic magnetic feedback loops constructing live player roles.
 
-![tree]('./decisional_trees.png')
+![tree](./decisional_trees.png)
 
 # verkle integration
 
