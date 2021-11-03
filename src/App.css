@@ -69,6 +69,7 @@ body {
 
 
 .card {
+  margin: auto;
   background: #191c29;
   width: var(--card-width);
   height: var(--card-height);
