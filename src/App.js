@@ -33,31 +33,68 @@ function App() {
   const [firstPull, setFirstPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
   const [secondPull, setSecondPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
   const [thirdPull, setThirdPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
-  // const [pullStage, setPullStage] = useState(1)
+
+  const [firstToken, setFirstToken] = useState('')
+  const [secondToken, setSecondToken] = useState('')
+  const [thirdToken, setThirdToken] = useState('')
+
   const [loadCards, setLoadCards] = useState(false)
   const [cards, setCards] = useState({})
   const [dropdown, setDropdown] = useState(null)
+
+  const [trade, setTrade] = useState({})
   
   const onSelect = (card) => {
     setPull(pullState, card)
   }
 
+  const executeTrade = (card, token, note) => {
+    setTrade({
+      card: card,
+      token: token,
+      note: note
+    })
+    console.log()
+  }
+
+  const portGatewayDecision = () => {
+
+    const gateway ={
+      set: [{
+        token: firstToken,
+        card: firstPull
+      },{
+        token: secondToken,
+        card: secondPull
+      },{
+        token: thirdToken,
+        card: thirdPull
+      }],
+      decision: {
+        trade: trade,
+        card: trade
+      }
+    }
+
+    // upload to textile
+    
+  }
+
   useEffect(() => {
      // load cards 
      if(!loadCards){
-       const deck = {}
-
        axios
         .get("https://rws-cards-api.herokuapp.com/api/v1/cards/")
         .then(function (response) {
-          setLoadCards(true)
 
           const cardNames = response.data.cards.map((card) => {
             return card.name
           })
-          // const cardNames = ['The Magician']
+
           const dropdownComponent = <Dropdown style={{fontSize: '11.4px; !immportant;'}}options={cardNames} onChange={onSelect} placeholder="Select a Card" />;
+          
           setDropdown(dropdownComponent)
+          setLoadCards(true)
         })
      }
   })
