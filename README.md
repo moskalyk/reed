@@ -17,7 +17,7 @@ while capital can be hidden, decisions against tarot NFTs not. due to the fact t
 
 # verkle integration
 
-As verkle trees are represented by vectors against the typical merkle tree structure, these vector decisions can be saved as parrallel state roots during certain periods of time, whereby a minimal set of guardians (256) might be promoted on various shards with tarot witnessess. might be interesting to overlap to individuals owning Urbit stars as operators that distribute their reed gateways to hosted planets as a type of authority on treasury holdings to not only technical confidence, but IRL metaverse discernment.
+As verkle trees are represented by vectors against the typical merkle tree structure, these vector decisions can be saved as parrallel state roots during certain periods of time, whereby a minimal set of guardians (256) might be promoted on various shards with tarot witnessess. might be interesting to overlap to individuals owning Urbit stars as operators that distribute their reed gateways to hosted planets as a type of authority on treasury holdings to not only technical confidence, but IRL metaverse discernment. as decisions on gateways are mapped, trusted liquidity profiles can create capital drip authorities for basic wellness / income networks.
 
 for now, posting gateway pull decision to textile / storage-js is sufficient. eventually, would like to post verifable videos alongside decisions to skynet, and create an NFC based card deck where reeders can tap to a mobile phone as an easy UX, or, perform readings as NFT mints to recipient travellers as social graph gifts (other planet holders).
 
