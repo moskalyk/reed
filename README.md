@@ -5,7 +5,7 @@ verifiable tarot card pulls for private AZTEC uniswap trades in DAO governance a
 
 
 # decisional trees
-constructing decisional flow trees as to the decisions with capital and liquidity being made through time. can map to DAO members to monitor trust in graphical flows.
+constructing decisional uniswap flow trees as to the decisions with capital and liquidity being made through time. can map to DAO members to monitor trust in graphical flows.
 
 78 tarot cards can be applied as a type of antiquity filter on resources
 
