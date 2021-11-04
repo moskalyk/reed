@@ -1,11 +1,13 @@
 .App {
   text-align: center;
+  /*background: #212534;*/
 }
 
 .title {
   font-family: Gothic;
   font-size: 88px;
   font-weight: 100;
+  margin: 20px;
 }
 
 .App-logo {
@@ -58,13 +60,15 @@
 
 body {
   min-height: 100vh;
-  background: #212534;
   display: flex;
   align-items: center;
   flex-direction: column;
   padding-top: 2rem;
   padding-bottom: 2rem;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 
@@ -147,3 +151,62 @@ a {
   font-weight: bold;
   margin-top: 2rem;
 }
+
+input[type=checkbox]{
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 200px;
+  height: 100px;
+  background: linear-gradient(123deg, rgb(148, 74, 242) 0%, rgb(68, 143, 255) 80%);
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+#switch {
+  margin: auto;
+}
+
+label:after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 90px;
+  height: 90px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+input:checked + label {
+  background: orange;
+}
+
+input:checked + label:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+label:active:after {
+  width: 130px;
+  margin: auto;
+}
+
+label {
+  margin: auto;
+}
+
+/*// centering
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}*/

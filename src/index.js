@@ -2,21 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App.js';
-import Atlas from './Atlas.js';
 import reportWebVitals from './reportWebVitals';
-import { Router, Route, Switch } from 'react-router-dom';
-import history from './history';
-import json from './json';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>
+    <BrowserRouter>
       <Switch>
-          <Route exact path="/"> <App /> </Route>
-          <Route exact path="/atlas"> <Atlas data={json} activeNode={json[0]} /> </Route>
+          <Route exact path="/" component={App}/>
        </Switch>
-      </Router>,
-    <App />
+      </BrowserRouter>,
   </React.StrictMode>,
   document.getElementById('root')
 );

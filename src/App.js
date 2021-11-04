@@ -10,7 +10,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 import Atlas from './Atlas'
-
+import { useHistory } from 'react-router-dom';
 import json from './json';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -35,6 +35,26 @@ let pullState = 1;
 
 function App() {
 
+  const handleClickAtlas = () => {
+      setAtlas(true)
+  }
+
+  const handleClickReed = () => {
+      setAtlas(false)
+  }  
+
+  const layerType = () => {
+    if(!privacy){
+      document.body.style.backgroundColor = "white";
+      document.getElementsByClassName('title')[0].style.color = 'black'
+      setPrivacy(true)
+    } else{
+      document.getElementsByClassName('title')[0].style.color = 'white'
+      document.body.style.backgroundColor = "#212534";
+      setPrivacy(false)
+    }
+  }
+
   const [firstPull, setFirstPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
   const [secondPull, setSecondPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
   const [thirdPull, setThirdPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
@@ -47,6 +67,8 @@ function App() {
   const [cards, setCards] = useState({})
   const [dropdown, setDropdown] = useState(null)
 
+  const [atlas, setAtlas] = useState(false)
+  const [privacy, setPrivacy] = useState(false)
   const [trade, setTrade] = useState({})
   
   const onSelect = (card) => {
@@ -129,38 +151,51 @@ function App() {
   return (
     <div className="App">
     
-    <h1 className='title' style={{color: 'white'}}>
-      R e e d
-    </h1>
+      {!atlas ? (
+        <>
+          <h1 className='title' style={{color: 'white'}}>
+            R e e d
+          </h1>
+          <p onClick={handleClickAtlas} style={{fontSize: '34px', cursor: 'pointer'}}>🌎</p>
+          <Grid container spacing={6}>
+            <Grid item m={4}>
+                {dropdown}
+                <br/>
+                <div className="card">
+                  <img width={"90%"} height={'90%'} src={firstPull}/>
+                </div>
+            </Grid>
 
-      <Grid container spacing={6}>
-        <Grid item m={4}>
-            {dropdown}
-            <br/>
-            <div class="card">
-              <img width={"90%"} height={'90%'} src={firstPull}/>
-            </div>
-        </Grid>
+            <Grid item m={4}>
+                {dropdown}
+                <br/>
+                <div className="card">
+                  <img width={"90%"} height={'90%'} src={secondPull}/>
 
-        <Grid item m={4}>
-            {dropdown}
-            <br/>
-            <div class="card">
-              <img width={"90%"} height={'90%'} src={secondPull}/>
+                </div>
+            </Grid>
 
-            </div>
-        </Grid>
+            <Grid item m={4}>
+                {dropdown}
+                <br/>
+                <div className="card">
+                  <img width={"90%"} height={'90%'} src={thirdPull}/>
+                </div>
+            </Grid>
+          </Grid>
+        </>
+        ) : (
+          <>
+            <h1 className='title' style={{color: 'white'}}>
+              A t l a s
+            </h1>
+            <p onClick={handleClickReed} style={{fontSize: '34px', cursor: 'pointer'}}>🃏</p>
+            <Atlas data={json} activeNode={json} filter={''}/> 
+          </>
+        )}
 
-        <Grid item m={4}>
-            {dropdown}
-            <br/>
-            <div class="card">
-              <img width={"90%"} height={'90%'} src={thirdPull}/>
-            </div>
-        </Grid>
-      </Grid>
-      <p style={{fontSize: '34px'}}>🌎</p>
-      <Atlas data={json} activeNode={json[0]}/>
+        <input type="checkbox" id="switch" onClick={layerType}/><label for="switch">Toggle</label>
+
     </div>
   );
 }

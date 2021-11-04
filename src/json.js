@@ -1,53 +1,57 @@
 export default {
 	timestamp: '08/02/2021 11:00',
-	name: 'Colour',
-	children: [{
-		name: 'Black',
-		children: []
-	}, {
-		name: 'Blue',
+	name: 'Card',
+	children: [
+		{
+			name: 'Magician',
+			children: []
+		}, {
+		name: 'Strength',
 		children: [{
-			name: 'Aquamarine',
+			name: 'High Priestess',
 			children: []
 		}, {
-			name: 'Cyan',
+			name: 'The Chariot',
+			children: [{
+				name: 'The Lovers',
+				children: [{
+					name: 'Wheel of Fortune',
+					children: [{
+						name: 'The Emperor',
+						children: []
+					}, {
+						name: 'The Hermit',
+						children: []
+					},{
+						name: 'The Fool',
+						children: [{
+		name: 'The Empress',
+		children: [{
+			name: 'The Magician',
 			children: []
 		}, {
-			name: 'Navy',
+			name: 'The Fool',
 			children: []
 		}, {
-			name: 'Turquoise',
+			name: 'The High Priestess',
+			children: []
+		}]
+	}],
+					}]
+				}, {
+					name: 'The Emperor',
+					children: []
+				}, {
+					name: 'The Hermit',
+					children: []
+				}]
+			}, ]
+		}, {
+			name: 'The Hanged Man',
 			children: []
 		}]
 	}, {
-		name: 'Green',
-		children: []
-	}, {
-		name: 'Purple',
-		children: [{
-			name: 'Indigo',
-			children: []
-		}, {
-			name: 'Violet',
-			children: []
-		}]
-	}, {
-		name: 'Red',
-		children: [{
-			name: 'Crimson',
-			children: []
-		}, {
-			name: 'Maroon',
-			children: []
-		}, {
-			name: 'Scarlet',
-			children: []
-		}]
-	}, {
-		name: 'White',
-		children: []
-	}, {
-		name: 'Yellow',
+		name: 'Justice',
 		children: []
 	}]
 };
