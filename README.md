@@ -3,6 +3,9 @@ verifiable tarot card pulls for private AZTEC uniswap trades in DAO governance a
 
 ![reed](./reed_interface_v2.png)
 
+# possible optimism integration in light / transparent mode
+
+![reed](./reed_interface_light.png)
 
 # decisional trees
 constructing decisional uniswap flow trees as to the decisions with capital and liquidity being made through time. can map to DAO members to monitor trust in graphical flows.
