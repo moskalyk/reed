@@ -8,7 +8,12 @@ import Grid from '@mui/material/Grid';
 
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { useReactMediaRecorder } from "react-media-recorder";
+
+import Atlas from './Atlas'
+
+import json from './json';
+
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const deck = {
   'The Magician':'https://www.trustedtarot.com/img/cards/the-magician.png',
@@ -49,17 +54,20 @@ function App() {
   }
 
   const executeTrade = (card, token, note) => {
-    setTrade({
+
+    const path = {
       card: card,
       token: token,
       note: note
-    })
-    console.log()
+    }
+
+    setTrade(path)
+    console.log(path)
   }
 
   const portGatewayDecision = () => {
 
-    const gateway ={
+    const gateway = {
       set: [{
         token: firstToken,
         card: firstPull
@@ -151,6 +159,8 @@ function App() {
             </div>
         </Grid>
       </Grid>
+      <p style={{fontSize: '34px'}}>🌎</p>
+      <Atlas data={json} activeNode={json[0]}/>
     </div>
   );
 }
