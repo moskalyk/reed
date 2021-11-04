@@ -161,14 +161,19 @@ input[type=checkbox]{
 label {
   cursor: pointer;
   text-indent: -9999px;
-  width: 200px;
-  height: 100px;
+  width: 144px;
+  height: 76px;
   background: linear-gradient(123deg, rgb(148, 74, 242) 0%, rgb(68, 143, 255) 80%);
   display: block;
   border-radius: 100px;
   position: relative;
 }
 
+.pair {
+  color: white;
+}
+
+/*https://codepen.io/mburnette/pen/LxNxNg*/
 #switch {
   margin: auto;
 }
@@ -178,8 +183,8 @@ label:after {
   position: absolute;
   top: 5px;
   left: 5px;
-  width: 90px;
-  height: 90px;
+  width: 62px;
+  height: 62px;
   background: #fff;
   border-radius: 90px;
   transition: 0.3s;

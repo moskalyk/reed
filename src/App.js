@@ -13,6 +13,8 @@ import Atlas from './Atlas'
 import { useHistory } from 'react-router-dom';
 import json from './json';
 
+import Button from '@mui/material/Button';
+
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const deck = {
@@ -47,10 +49,16 @@ function App() {
     if(!privacy){
       document.body.style.backgroundColor = "white";
       document.getElementsByClassName('title')[0].style.color = 'black'
+      document.getElementsByClassName('pair')[0].style.color = 'black'
+      document.getElementsByClassName('pair')[1].style.color = 'black'
+      document.getElementsByClassName('pair')[2].style.color = 'black'
       setPrivacy(true)
     } else{
-      document.getElementsByClassName('title')[0].style.color = 'white'
       document.body.style.backgroundColor = "#212534";
+      document.getElementsByClassName('title')[0].style.color = 'white'
+      document.getElementsByClassName('pair')[0].style.color = 'white'
+      document.getElementsByClassName('pair')[1].style.color = 'white'
+      document.getElementsByClassName('pair')[2].style.color = 'white'
       setPrivacy(false)
     }
   }
@@ -75,7 +83,11 @@ function App() {
     setPull(pullState, card)
   }
 
-  const executeTrade = (card, token, note) => {
+  const executeTrade = (card) => {
+
+    const token = 'ETH:DAI'
+    // aztec magic
+    const note = 'shh'
 
     const path = {
       card: card,
@@ -164,6 +176,9 @@ function App() {
                 <div className="card">
                   <img width={"90%"} height={'90%'} src={firstPull}/>
                 </div>
+                <br />
+                <p className='pair'>ETH:DAI 0.1</p>
+                <Button variant="outlined" style={{background: 'wheat'}} onClick={() => executeTrade(firstPull)}>swap</Button>
             </Grid>
 
             <Grid item m={4}>
@@ -171,8 +186,11 @@ function App() {
                 <br/>
                 <div className="card">
                   <img width={"90%"} height={'90%'} src={secondPull}/>
-
                 </div>
+                <br />
+                <p className='pair'>ETH:DAI 0.3</p>
+                <Button variant="outlined" style={{background: 'wheat'}}>swap</Button>
+
             </Grid>
 
             <Grid item m={4}>
@@ -181,6 +199,10 @@ function App() {
                 <div className="card">
                   <img width={"90%"} height={'90%'} src={thirdPull}/>
                 </div>
+                <br />
+                <p className='pair'>ETH:DAI 0.7</p>
+                <Button variant="outlined" style={{background: 'wheat'}}>swap</Button>
+
             </Grid>
           </Grid>
         </>
