@@ -16,6 +16,23 @@ import json from './json';
 import Button from '@mui/material/Button';
 
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import {ethers} from 'ethers'
+
+// textile
+import { providers } from "ethers";
+import { init } from "@textile/eth-storage";
+
+import {
+  abi,
+  bytecode,
+} from '@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json'
+
+
+// optimism magic
+import { approve, runSwap, checkBalance} from './helpers.js'
+
+// aztec magic
+import Aztec from './Aztec.js'
 
 const deck = {
   'The Magician':'https://www.trustedtarot.com/img/cards/the-magician.png',
@@ -46,79 +63,135 @@ function App() {
   }  
 
   const layerType = () => {
-    if(!privacy){
+    if(privacy){
       document.body.style.backgroundColor = "white";
       document.getElementsByClassName('title')[0].style.color = 'black'
       document.getElementsByClassName('pair')[0].style.color = 'black'
       document.getElementsByClassName('pair')[1].style.color = 'black'
       document.getElementsByClassName('pair')[2].style.color = 'black'
-      setPrivacy(true)
+      setPrivacy(false)
     } else{
       document.body.style.backgroundColor = "#212534";
       document.getElementsByClassName('title')[0].style.color = 'white'
       document.getElementsByClassName('pair')[0].style.color = 'white'
       document.getElementsByClassName('pair')[1].style.color = 'white'
       document.getElementsByClassName('pair')[2].style.color = 'white'
-      setPrivacy(false)
+      setPrivacy(true)
     }
   }
 
-  const [firstPull, setFirstPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
-  const [secondPull, setSecondPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
-  const [thirdPull, setThirdPull] = useState('https://gateway.pinata.cloud/ipfs/QmaMBUWhRiP9JfQ4brWbEuXNCYXJBTvzB1H6mDaEnb6tRs')
+  const [firstPull, setFirstPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
+  const [secondPull, setSecondPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
+  const [thirdPull, setThirdPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
 
-  const [firstToken, setFirstToken] = useState('')
-  const [secondToken, setSecondToken] = useState('')
-  const [thirdToken, setThirdToken] = useState('')
+  const [firstToken, setFirstToken] = useState('WETH:DAI')
+  const [secondToken, setSecondToken] = useState('WETH:UNI')
+  const [thirdToken, setThirdToken] = useState('WETH:FTX')
 
   const [loadCards, setLoadCards] = useState(false)
   const [cards, setCards] = useState({})
   const [dropdown, setDropdown] = useState(null)
 
   const [atlas, setAtlas] = useState(false)
-  const [privacy, setPrivacy] = useState(false)
+  const [privacy, setPrivacy] = useState(true)
   const [trade, setTrade] = useState({})
+  const [snapshot, setSnapshot] = useState('root')
+  const [swapTx, setSwapTx] = useState('0x')
   
   const onSelect = (card) => {
     setPull(pullState, card)
   }
 
-  const executeTrade = (card) => {
+  const executeTrade = async (card) => {
 
-    const token = 'ETH:DAI'
-    // aztec magic
-    const note = 'shh'
 
-    const path = {
-      card: card,
-      token: token,
-      note: note
+
+    if(privacy){
+    // using AZTEC
+      const token = 'ETH:DAI'
+      // aztec magic
+      const aztec = new Aztec()
+      const note = await aztec.runSwap('0.1')
+
+      const path = {
+        card: card,
+        token: token,
+        note: note
+      }
+
+      setTrade(path)
+      console.log(path)
+
+    }else{
+      // using optimism
+      // const optimismKovanAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564'
+      const privateKey = ''
+      const provider = new ethers.providers.JsonRpcProvider({url: 'https://optimism-kovan.infura.io/v3/'})
+      const signer = new ethers.Wallet(privateKey, provider)
+      // console.log(signer)
+      const daiAddress = '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd'
+      const WETHAddress = '0x4200000000000000000000000000000000000006'
+      // make approve on the token
+      const tx = await approve(WETHAddress, '1.0', signer, ethers)
+      // make swap on the router
+
+      // const tx = await runSwap('0.01', daiAddress, signer, ethers)
+      setSwapTx(tx)
+
+      // const router = new ethers.Contract(optimismKovanAddress, abi, signer)
+
+      // console.log(router)
+      // const balance = await checkBalance(signer.address, provider, ethers)
+      // console.log(balance.toString())
+      
+
     }
 
-    setTrade(path)
-    console.log(path)
+
   }
 
-  const portGatewayDecision = () => {
+  const portGatewayDecision = async (tx) => {
 
     const gateway = {
       set: [{
         token: firstToken,
-        card: firstPull
+        card: firstPull,
+        isDecision: false
       },{
         token: secondToken,
-        card: secondPull
+        card: secondPull,
+        isDecision: false
       },{
         token: thirdToken,
-        card: thirdPull
+        card: thirdPull,
+        isDecision: false
       }],
       decision: {
-        trade: trade,
-        card: trade
+        parent: snapshot,
+        trade: tx,
       }
+
     }
 
     // upload to textile
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const provider = new providers.Web3Provider(window.ethereum);
+    const wallet = provider.getSigner();
+
+    const storage = await init(wallet);
+
+    const blob = new Blob([JSON.stringify(gateway)], { type: "text/plain" });
+    const file = new File([blob], "decision.txt", {
+      type: "text/plain",
+      lastModified: new Date().getTime(),
+    });
+
+    await storage.addDeposit();
+
+    const { id, cid } = await storage.store(file);
+
+    console.log(cid)
+    setSnapshot(cid)
     
   }
 
@@ -140,6 +213,11 @@ function App() {
         })
      }
   })
+
+  const saveSnap = () => {
+    console.log()
+    portGatewayDecision(swapTx)
+  }
 
   const setPull = (number, tarot) => {
     switch(pullState){
@@ -166,7 +244,7 @@ function App() {
       {!atlas ? (
         <>
           <h1 className='title' style={{color: 'white'}}>
-            R e e d
+            E n d
           </h1>
           <p onClick={handleClickAtlas} style={{fontSize: '34px', cursor: 'pointer'}}>🌎</p>
           <Grid container spacing={6}>
@@ -177,8 +255,8 @@ function App() {
                   <img width={"90%"} height={'90%'} src={firstPull}/>
                 </div>
                 <br />
-                <p className='pair'>ETH:DAI 0.1</p>
-                <Button variant="outlined" style={{background: 'wheat'}} onClick={() => executeTrade(firstPull)}>swap</Button>
+                <p className='pair'>{firstToken} 0.3</p>
+                <Button variant="outlined" style={{background: 'wheat'}} onClick={async () => await executeTrade(firstPull)}>swap</Button>
             </Grid>
 
             <Grid item m={4}>
@@ -188,7 +266,7 @@ function App() {
                   <img width={"90%"} height={'90%'} src={secondPull}/>
                 </div>
                 <br />
-                <p className='pair'>ETH:DAI 0.3</p>
+                <p className='pair'>{secondToken} 0.3</p>
                 <Button variant="outlined" style={{background: 'wheat'}}>swap</Button>
 
             </Grid>
@@ -200,11 +278,14 @@ function App() {
                   <img width={"90%"} height={'90%'} src={thirdPull}/>
                 </div>
                 <br />
-                <p className='pair'>ETH:DAI 0.7</p>
+                <p className='pair'>{thirdToken} 0.3</p>
                 <Button variant="outlined" style={{background: 'wheat'}}>swap</Button>
 
             </Grid>
           </Grid>
+          <Button variant="outlined" style={{background: 'white'}} onClick={saveSnap}>save</Button>
+          <br />
+
         </>
         ) : (
           <>

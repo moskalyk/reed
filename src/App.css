@@ -181,8 +181,8 @@ label {
 label:after {
   content: '';
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 7px;
+  left: 7px;
   width: 62px;
   height: 62px;
   background: #fff;
@@ -200,7 +200,7 @@ input:checked + label:after {
 }
 
 label:active:after {
-  width: 130px;
+  width: 121px;
   margin: auto;
 }
 
