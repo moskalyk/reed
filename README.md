@@ -1,6 +1,15 @@
 # reed
-verifiable tarot card pulls for private AZTEC uniswap trades in DAO governance and exit quits
+verifiable oracular readings via I-Ching & Tarot card pulls for private AZTEC uniswap & transparent Optimism trades in DAO governance
 
+![reed_home](./reed_homage.png)
+
+# thesis
+TBC
+
+## i-ching
+![i_ching](./i_ching.png)
+
+## tarot
 ![reed](./reed_interface_v2.png)
 
 # possible optimism integration in light / transparent mode

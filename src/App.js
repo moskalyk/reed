@@ -18,6 +18,8 @@ import Button from '@mui/material/Button';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import {ethers} from 'ethers'
 
+import IChing from './IChing.js'
+
 // textile
 import { providers } from "ethers";
 import { init } from "@textile/eth-storage";
@@ -240,8 +242,16 @@ function App() {
 
   return (
     <div className="App">
-    
-      {!atlas ? (
+    <h1 className='title' style={{color: 'white'}}>
+              R e e d
+    </h1>
+      <div class="circle">
+        <div class="noise animated"></div>
+      </div>
+
+
+
+{/*      {!atlas ? (
         <>
           <h1 className='title' style={{color: 'white'}}>
             E n d
@@ -295,10 +305,11 @@ function App() {
             <p onClick={handleClickReed} style={{fontSize: '34px', cursor: 'pointer'}}>🃏</p>
             <Atlas data={json} activeNode={json} filter={''}/> 
           </>
-        )}
-
+        )}*/}
+        <p style={{color: 'white', fontSize: '20px'}}>{"> reveal <"}</p>
+{/*
         <input type="checkbox" id="switch" onClick={layerType}/><label for="switch">Toggle</label>
-
+*/}
     </div>
   );
 }
