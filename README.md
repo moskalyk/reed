@@ -1,7 +1,7 @@
 # reed
 verifiable oracular readings via I-Ching & Tarot card pulls for private AZTEC uniswap & transparent Optimism trades in DAO governance
 
-![reed_home](./reed_homage.png)
+![reed_home](./reed_homage.gif)
 
 # thesis
 TBC
