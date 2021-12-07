@@ -5,6 +5,34 @@ verifiable oracular readings via I-Ching & Tarot card pulls for private AZTEC un
 
 # thesis
 TBC
+current astrological systems are neatly feat into 12 houses and signs. the babylonians negated suchs signs like the 13th constellation where the sun passes through during the times of November 29th - 17th. if a system engages in adoption of this sign, how might time systems unravel itself to accomodate such timely-rollups across micro psyche & macro markets of resource theory?
+
+## 13th Zodiac Sign
+// show 12 sign cycle clock
+// add galactic 13th
+// symbol of medicine
+// many groups (?)
+
+## ritual setup
+64 angle presevering I-Ching 
+256 galactic points, divided by 4 -> 64 possible angles and pairs yin/yang
+
+add 4-sided kaballah tree + crowns
+
+## progression
+0. enneagram personality assesment & zodiac interpretation 
+1. learning 78 degrees of widsom via tarot embeddings in community archetypal paths
+2. completion and extension into 64 genetic binary codons as present + transormation steps
+3. vere'd aggregate across community dimensions 
+
+zodiac circle to some tangent, represtning sigma (21 in th phoenecian alphabet, which also the world in tarot). In the i-ching, this resolves to cutting Through & Discernment. 
+
+> "Like Alexander the Great cutting the Gordian knot, take decisive action and you will meet with good fortune and even your destiny. Don’t be afraid to shake things up a bit. The ability to take corrective measures when they are needed is an essential trait of leadership."
+
+## endstate
+self-contained chaotic attractors aiming for community stability
+TODO: add math attractors
+TODO: prime distributions
 
 ## i-ching
 ![i_ching](./i_ching.png)
