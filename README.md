@@ -16,7 +16,6 @@ current astrological systems are neatly feat into 12 houses and signs. the babyl
 ## ritual setup
 64 angle presevering I-Ching 
 256 galactic points, divided by 4 -> 64 possible angles and pairs yin/yang
-
 add 4-sided kaballah tree + crowns
 
 ## progression
@@ -25,7 +24,7 @@ add 4-sided kaballah tree + crowns
 2. completion and extension into 64 genetic binary codons as present + transormation steps
 3. vere'd aggregate across community dimensions 
 
-zodiac circle to some tangent, represtning sigma (21 in th phoenecian alphabet, which also the world in tarot). In the i-ching, this resolves to cutting Through & Discernment. 
+zodiac circle to some tangent, representing sigma (21 in th phoenecian alphabet, which also the world in tarot). In the i-ching, this resolves to cutting Through & Discernment. 
 
 > "Like Alexander the Great cutting the Gordian knot, take decisive action and you will meet with good fortune and even your destiny. Don’t be afraid to shake things up a bit. The ability to take corrective measures when they are needed is an essential trait of leadership."
 
