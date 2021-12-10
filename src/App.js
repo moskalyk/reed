@@ -308,6 +308,11 @@ function Home(props) {
   )
 }
 function ReedMode(props) {
+
+  const akashicClick = () => {
+    props.action('akashic')
+  }
+
   return(
     <>
       <h1 className='title' style={{color: 'white'}}>
@@ -331,6 +336,17 @@ function ReedMode(props) {
           </div>
         </Grid>
       </Grid>
+      <p style={{color: 'white', fontSize: '20px', cursor: 'pointer'}} onClick={() => akashicClick()}>{"> akashic <"}</p>
+    </>
+  )
+}
+
+function Akashic(props){
+  return(
+    <>
+      <h1 className='title' style={{color: 'white'}}>
+                A k a s h i c 
+      </h1>
     </>
   )
 }
@@ -370,10 +386,10 @@ function App() {
       viewComponent = <AtlasView action={setView}/>
       break;
     case 'iching':
-      viewComponent = <ReedMode action={setView}/>
+      viewComponent = <IChing action={setView}/>
       break;
     case 'akashic':
-      viewComponent = <ReedMode action={setView}/>
+      viewComponent = <Akashic action={setView}/>
       break;
   }
 

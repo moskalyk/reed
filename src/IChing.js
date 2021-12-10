@@ -193,6 +193,7 @@ function IChing() {
   const [app, setApp] = useState({})
   useEffect(() => {
     if(!establish){
+      document.body.className = "Optimism";
       const ching = iching()
       setApp(ching)
       ching.resetButton.addEventListener('click', () => {
@@ -204,13 +205,14 @@ function IChing() {
 
   const coinFlip = (ching) => {
     app.throwCoin(ching)
+    console.log()
   }
 
   return (
-    <div className="App">
+    <>
       <div className="container" id="buttons" style={{marginTop: '69px'}}>
         <div className="row">
-          <div style={{bottom: 0, width: '100%', position: 'absolute', paddingBottom: '39px'}}>
+          <div style={{bottom: 0, width: '100%', paddingBottom: '39px'}}>
             {/*<button id="throwbutton">Throw</button>*/}
             <button id="throwbutton" onClick={() => coinFlip(7)}>+</button>
             <button id="throwbutton" onClick={() => coinFlip(8)}>-</button>
@@ -230,7 +232,7 @@ function IChing() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
