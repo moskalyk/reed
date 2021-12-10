@@ -53,35 +53,18 @@ const deck = {
 }
 
 let pullState = 1;
-
-function App() {
-
-  const handleClickAtlas = () => {
-      setAtlas(true)
-  }
-
-  const handleClickReed = () => {
-      setAtlas(false)
-  }  
-
-  const layerType = () => {
-    if(privacy){
-      document.body.style.backgroundColor = "white";
-      document.getElementsByClassName('title')[0].style.color = 'black'
-      document.getElementsByClassName('pair')[0].style.color = 'black'
-      document.getElementsByClassName('pair')[1].style.color = 'black'
-      document.getElementsByClassName('pair')[2].style.color = 'black'
-      setPrivacy(false)
-    } else{
-      document.body.style.backgroundColor = "#212534";
-      document.getElementsByClassName('title')[0].style.color = 'white'
-      document.getElementsByClassName('pair')[0].style.color = 'white'
-      document.getElementsByClassName('pair')[1].style.color = 'white'
-      document.getElementsByClassName('pair')[2].style.color = 'white'
-      setPrivacy(true)
-    }
-  }
-
+function AtlasView (props) {
+  return(
+    <>
+      <h1 className='title' style={{color: 'white'}}>
+        A t l a s
+      </h1>
+      <p onClick={() => props.action('tarot')} style={{fontSize: '34px', cursor: 'pointer'}}>🃏</p>
+      <Atlas data={json} activeNode={json} filter={''}/> 
+    </>
+  )
+}
+function Tarot(props) {
   const [firstPull, setFirstPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
   const [secondPull, setSecondPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
   const [thirdPull, setThirdPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
@@ -94,65 +77,55 @@ function App() {
   const [cards, setCards] = useState({})
   const [dropdown, setDropdown] = useState(null)
 
-  const [atlas, setAtlas] = useState(false)
   const [privacy, setPrivacy] = useState(true)
   const [trade, setTrade] = useState({})
   const [snapshot, setSnapshot] = useState('root')
   const [swapTx, setSwapTx] = useState('0x')
-  
+
+  const layerType = () => {
+    if(privacy){
+      document.body.className = "Optimism";
+      //document.body.style.backgroundColor = "white !important;";
+      //document.body.style.backgroundColor = "white !important;";
+      document.getElementsByClassName('title')[0].style.color = 'black'
+      document.getElementsByClassName('pair')[0].style.color = 'black'
+      document.getElementsByClassName('pair')[1].style.color = 'black'
+      document.getElementsByClassName('pair')[2].style.color = 'black'
+      setPrivacy(false)
+    } else{
+      document.body.className = "Aztec";
+      document.getElementsByClassName('title')[0].style.color = 'white'
+      document.getElementsByClassName('pair')[0].style.color = 'white'
+      document.getElementsByClassName('pair')[1].style.color = 'white'
+      document.getElementsByClassName('pair')[2].style.color = 'white'
+      setPrivacy(true)
+    }
+  }
+
   const onSelect = (card) => {
     setPull(pullState, card)
   }
 
-  const executeTrade = async (card) => {
+    useEffect(() => {
+     // load cards 
+     if(!loadCards){
+       axios
+        .get("https://rws-cards-api.herokuapp.com/api/v1/cards/")
+        .then(function (response) {
 
+          const cardNames = response.data.cards.map((card) => {
+            return card.name
+          })
 
+          const dropdownComponent = <Dropdown style={{fontSize: '11.4px; !immportant;'}}options={cardNames} onChange={onSelect} placeholder="Select a Card" />;
+          
+          setDropdown(dropdownComponent)
+          setLoadCards(true)
+        })
+     }
+  })
 
-    if(privacy){
-    // using AZTEC
-      const token = 'ETH:DAI'
-      // aztec magic
-      const aztec = new Aztec()
-      const note = await aztec.runSwap('0.1')
-
-      const path = {
-        card: card,
-        token: token,
-        note: note
-      }
-
-      setTrade(path)
-      console.log(path)
-
-    }else{
-      // using optimism
-      // const optimismKovanAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564'
-      const privateKey = ''
-      const provider = new ethers.providers.JsonRpcProvider({url: 'https://optimism-kovan.infura.io/v3/'})
-      const signer = new ethers.Wallet(privateKey, provider)
-      // console.log(signer)
-      const daiAddress = '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd'
-      const WETHAddress = '0x4200000000000000000000000000000000000006'
-      // make approve on the token
-      const tx = await approve(WETHAddress, '1.0', signer, ethers)
-      // make swap on the router
-
-      // const tx = await runSwap('0.01', daiAddress, signer, ethers)
-      setSwapTx(tx)
-
-      // const router = new ethers.Contract(optimismKovanAddress, abi, signer)
-
-      // console.log(router)
-      // const balance = await checkBalance(signer.address, provider, ethers)
-      // console.log(balance.toString())
-      
-
-    }
-
-
-  }
-
-  const portGatewayDecision = async (tx) => {
+      const portGatewayDecision = async (tx) => {
 
     const gateway = {
       set: [{
@@ -197,31 +170,12 @@ function App() {
     
   }
 
-  useEffect(() => {
-     // load cards 
-     if(!loadCards){
-       axios
-        .get("https://rws-cards-api.herokuapp.com/api/v1/cards/")
-        .then(function (response) {
-
-          const cardNames = response.data.cards.map((card) => {
-            return card.name
-          })
-
-          const dropdownComponent = <Dropdown style={{fontSize: '11.4px; !immportant;'}}options={cardNames} onChange={onSelect} placeholder="Select a Card" />;
-          
-          setDropdown(dropdownComponent)
-          setLoadCards(true)
-        })
-     }
-  })
-
   const saveSnap = () => {
     console.log()
     portGatewayDecision(swapTx)
   }
 
-  const setPull = (number, tarot) => {
+    const setPull = (number, tarot) => {
     switch(pullState){
       case 1:
           setFirstPull(deck[tarot.value]);
@@ -240,23 +194,57 @@ function App() {
     }
   }
 
-  return (
-    <div className="App">
-    <h1 className='title' style={{color: 'white'}}>
-              R e e d
-    </h1>
-      <div class="circle">
-        <div class="noise animated"></div>
-      </div>
+    const executeTrade = async (card) => {
+    if(privacy){
+    // using AZTEC
+      const token = 'ETH:DAI'
+      // aztec magic
+      const aztec = new Aztec()
+      const note = await aztec.runSwap('0.1')
+
+      const path = {
+        card: card,
+        token: token,
+        note: note
+      }
+
+      setTrade(path)
+      console.log(path)
+
+    }else{
+      // using optimism
+      // const optimismKovanAddress = '0xE592427A0AEce92De3Edee1F18E0157C05861564'
+      const privateKey = ''
+      const provider = new ethers.providers.JsonRpcProvider({url: 'https://optimism-kovan.infura.io/v3/'})
+      const signer = new ethers.Wallet(privateKey, provider)
+      // console.log(signer)
+      const daiAddress = '0xff795577d9ac8bd7d90ee22b6c1703490b6512fd'
+      const WETHAddress = '0x4200000000000000000000000000000000000006'
+      // make approve on the token
+      const tx = await approve(WETHAddress, '1.0', signer, ethers)
+      // make swap on the router
+
+      // const tx = await runSwap('0.01', daiAddress, signer, ethers)
+      setSwapTx(tx)
+
+      // const router = new ethers.Contract(optimismKovanAddress, abi, signer)
+
+      // console.log(router)
+      // const balance = await checkBalance(signer.address, provider, ethers)
+      // console.log(balance.toString())
+      
+
+    }
 
 
+  }
 
-{/*      {!atlas ? (
-        <>
+  return(
+      <>  
           <h1 className='title' style={{color: 'white'}}>
-            E n d
+                    R e e d
           </h1>
-          <p onClick={handleClickAtlas} style={{fontSize: '34px', cursor: 'pointer'}}>🌎</p>
+          <p onClick={() => props.action('atlas')} style={{fontSize: '34px', cursor: 'pointer'}}>🌎</p>
           <Grid container spacing={6}>
             <Grid item m={4}>
                 {dropdown}
@@ -295,21 +283,103 @@ function App() {
           </Grid>
           <Button variant="outlined" style={{background: 'white'}} onClick={saveSnap}>save</Button>
           <br />
-
+          <input type="checkbox" id="switch" onClick={layerType}/><label for="switch">Toggle</label>
         </>
-        ) : (
-          <>
-            <h1 className='title' style={{color: 'white'}}>
-              A t l a s
-            </h1>
-            <p onClick={handleClickReed} style={{fontSize: '34px', cursor: 'pointer'}}>🃏</p>
-            <Atlas data={json} activeNode={json} filter={''}/> 
-          </>
-        )}*/}
-        <p style={{color: 'white', fontSize: '20px'}}>{"> reveal <"}</p>
-{/*
-        <input type="checkbox" id="switch" onClick={layerType}/><label for="switch">Toggle</label>
-*/}
+    )
+}
+
+function Home(props) {
+
+  const revealClick = () => {
+    props.action('mode')
+  }
+
+  return(
+    <>
+      <h1 className='title' style={{color: 'white'}}>
+                R e e d
+      </h1>
+      <div class="circle">
+        <div class="noise animated"></div>
+      </div>
+      <p style={{color: 'white', fontSize: '20px', cursor: 'pointer'}} onClick={() => revealClick()}>{"> reveal <"}</p>
+
+    </>
+  )
+}
+function ReedMode(props) {
+  return(
+    <>
+      <h1 className='title' style={{color: 'white'}}>
+                C h o o s e
+      </h1>
+      <Grid container spacing={6}>
+        <Grid item m={6}>
+          <div>
+            Tarot
+            <div onClick={() => props.action('tarot')} className="card">
+              <img width={"90%"} height={'90%'} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>
+            </div>
+          </div>
+        </Grid>
+        <Grid item m={6}>
+          <div>
+            I-Ching
+            <div onClick={() => props.action('iching')} className="card">
+              <img width={"90%"} height={'60%'} src={'https://gateway.pinata.cloud/ipfs/QmPzBsoPhNfTVTwAQMg57JMF89gPxyfv4Ld6Bd81wMX4u4'}/>
+            </div>
+          </div>
+        </Grid>
+      </Grid>
+    </>
+  )
+}
+
+function App() {
+
+  const handleClickAtlas = () => {
+      setAtlas(true)
+  }
+
+  const handleClickReed = () => {
+      setAtlas(false)
+  }  
+
+  const [atlas, setAtlas] = useState(false)
+
+  const [view, setView] = useState('home')
+
+
+  const revealClick = () => {
+    console.log('reveal')
+  }
+
+  let viewComponent;
+
+  switch(view){
+    case 'home':
+      viewComponent = <Home action={setView}/>
+      break;
+    case 'mode':
+      viewComponent = <ReedMode action={setView}/>
+      break;
+    case 'tarot':
+      viewComponent = <Tarot action={setView}/>
+      break;
+    case 'atlas':
+      viewComponent = <AtlasView action={setView}/>
+      break;
+    case 'iching':
+      viewComponent = <ReedMode action={setView}/>
+      break;
+    case 'akashic':
+      viewComponent = <ReedMode action={setView}/>
+      break;
+  }
+
+  return (
+    <div className="App">
+      {viewComponent}
     </div>
   );
 }
