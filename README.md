@@ -54,6 +54,11 @@ while capital can be hidden, decisions against tarot NFTs not. due to the fact t
 
 ![tree](./atlas.png)
 
+# architecture
+Technical architecture with reed.live client using [eth.storage](https://eth.storage/javascript#usage) and server indexer using [hyperbeedeebee](https://github.com/RangerMauve/hyperbeedeebee) a hypercore db that stores access to the akashic records for the querents. Enabling networking on a swarm would enable a set of validators to verify time based commitments of readings and vector actions.
+
+![arch](./reed_arch.png)
+
 # verkle integration
 
 As verkle trees are represented by vectors against the typical merkle tree structure, these vector decisions can be saved as parrallel state roots during certain periods of time, whereby a minimal set of guardians (256) might be promoted on various shards with tarot witnessess. might be interesting to overlap to individuals owning Urbit stars as operators that distribute their reed gateways to hosted planets as a type of authority on treasury holdings to not only technical confidence, but IRL metaverse discernment. as decisions on gateways are mapped, trusted liquidity profiles can create capital drip authorities for basic wellness / income networks.
@@ -63,3 +68,5 @@ for now, posting gateway pull decision to textile / storage-js is sufficient. ev
 Q: 'can we pick apart the liquiduty of markets with a minimal set of widely distributed tarot memes to map meaning while creating micro-identity stability?'
 
 🕵️
+
+~milbyt-moszod research for [matter.direct](http://matter.direct)
