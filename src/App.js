@@ -24,6 +24,11 @@ import IChing from './IChing.js'
 import { providers } from "ethers";
 import { init } from "@textile/eth-storage";
 
+import Akashic from './store/Akashic.js'
+import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
+import 'react-vertical-timeline-component/style.min.css';
+import Reed from './Reed.js'
+
 import {
   abi,
   bytecode,
@@ -35,6 +40,7 @@ import { approve, runSwap, checkBalance} from './helpers.js'
 
 // aztec magic
 import Aztec from './Aztec.js'
+import { Chart } from "react-google-charts";
 
 const deck = {
   'The Magician':'https://www.trustedtarot.com/img/cards/the-magician.png',
@@ -52,15 +58,140 @@ const deck = {
   'The Fool':'https://www.trustedtarot.com/img/cards/the-fool.png',
 }
 
+function AkashicRecords(props){
+
+  let data = []
+  const [chart, setChart] = useState(null)
+
+  useEffect(() => {
+    setTimeout(async () => {
+
+        const records = await axios.get('http://localhost:1440/akashic')
+        console.log(records)
+        const chartComponent = <Chart
+        width={'500px'}
+        height={'300px'}
+        chartType="BarChart"
+        loader={<div>Loading Chart</div>}
+        data={[
+          ['Cards', 'Value Staked', 'Value Left'],
+          ['New York City, NY', 8175000, 8008000],
+          ['Los Angeles, CA', 3792000, 3694000],
+          ['Chicago, IL', 2695000, 2896000],
+          ['Houston, TX', 2099000, 1953000],
+          ['Philadelphia, PA', 1526000, 1517000],
+        ]}
+        options={{
+          title: 'Akashic Tarot Swap Records',
+          chartArea: { width: '50%' },
+          isStacked: true,
+          textColor: 'white',
+          colors: ['#941fff', '#ff1f5d'],
+          backgroundColor: 'black',
+          hAxis: {
+            title: 'Value in USD',
+            minValue: 0,
+          },
+          vAxis: {
+            title: 'Cards',
+          },
+        }}
+        // For tests
+        rootProps={{ 'data-testid': '3' }}
+      />
+        setChart(chartComponent)
+    },1000)
+  }, [data])
+
+  return (
+    <>
+      <h1 className='title' style={{color: 'white'}}>
+                A k a s h i c 
+      </h1>
+      <p onClick={() => props.action('mode')} style={{fontSize: '34px', cursor: 'pointer'}}>🃏</p>
+      {chart}
+      
+    </>
+  )
+}
+
+function TimelineRecords(props){
+
+  const [timeline, setTimline] = useState([])
+  const records = [
+  {title: 'magician', funds: 2000, src: 'https://www.trustedtarot.com/img/cards/the-magician.png'},
+  {title: 'magician', funds: 2000, src: 'https://www.trustedtarot.com/img/cards/the-magician.png'},
+  {title: 'magician', funds: 2000, src: 'https://www.trustedtarot.com/img/cards/the-magician.png'},
+  {title: 'magician', funds: 2000, src: 'https://www.trustedtarot.com/img/cards/the-magician.png'},
+  ]
+
+  // process records
+  // get element price amounr
+  // get tarot picture
+
+  // const timeline = records.map((el) => {
+  //   return <VerticalTimelineElement
+  //       className="vertical-timeline-element--education"
+  //       date={`$${el.funds}`}
+  //       iconStyle={{ background: 'black', color: '#fff' }}
+  //       icon={'🃏'}
+  //       style={{margin: '20px'}}
+  //     >
+  //       <h3 className="vertical-timeline-element-title">{el.title}</h3>
+  //       <img style={{width: '100%'}} src={el.src}/>
+  //     </VerticalTimelineElement>
+  // })
+
+  const simulateRecords = () => {
+
+    const reed = new Reed()
+    const records = reed.simulate(10)
+    console.log(records)
+
+    const timelineRecords = records.map((el) => {
+      return <VerticalTimelineElement
+          className="vertical-timeline-element--education"
+          date={`$${el.funds}`}
+          iconStyle={{ background: 'black', color: '#fff' }}
+          icon={'🃏'}
+          style={{margin: '20px'}}
+        >
+          <h3 className="vertical-timeline-element-title">{el.title}</h3>
+          <img style={{width: '100%'}} src={el.src}/>
+        </VerticalTimelineElement>
+    })
+
+    setTimline(timelineRecords)
+  }
+
+  return(
+    <>
+      <h1 className='title' style={{color: 'white'}}>
+                Y o u r  P u l l s 
+      </h1>
+      <p onClick={() => props.action('mode')} style={{fontSize: '34px', cursor: 'pointer'}}>🃏</p>
+
+      <p style={{color: 'white'}}>Account: {props.wallet.substring(0,6) + '...'}</p>
+      <p style={{color: 'white', fontSize: '20px', cursor: 'pointer'}} onClick={() => simulateRecords()}>{"> simulate <"}</p>
+      
+      <VerticalTimeline>
+        {timeline}
+      </VerticalTimeline>
+    </>
+  )
+}
+
 let pullState = 1;
 function AtlasView (props) {
+  //<Atlas data={json} activeNode={json} filter={''}/> 
   return(
     <>
       <h1 className='title' style={{color: 'white'}}>
         A t l a s
       </h1>
       <p onClick={() => props.action('tarot')} style={{fontSize: '34px', cursor: 'pointer'}}>🃏</p>
-      <Atlas data={json} activeNode={json} filter={''}/> 
+      <p onClick={() => props.action('timeline')} style={{fontSize: '34px', cursor: 'pointer'}}>🕰️</p>
+      <p style={{color: 'white'}}>coming soon...</p>
     </>
   )
 }
@@ -81,6 +212,8 @@ function Tarot(props) {
   const [trade, setTrade] = useState({})
   const [snapshot, setSnapshot] = useState('root')
   const [swapTx, setSwapTx] = useState('0x')
+
+  const [akashic, setAkashic] = useState({})
 
   const layerType = () => {
     if(privacy){
@@ -109,6 +242,9 @@ function Tarot(props) {
     useEffect(() => {
      // load cards 
      if(!loadCards){
+
+       setAkashic(new Akashic())
+
        axios
         .get("https://rws-cards-api.herokuapp.com/api/v1/cards/")
         .then(function (response) {
@@ -145,7 +281,6 @@ function Tarot(props) {
         parent: snapshot,
         trade: tx,
       }
-
     }
 
     // upload to textile
@@ -171,7 +306,29 @@ function Tarot(props) {
   }
 
   const saveSnap = () => {
-    console.log()
+    const tx = '0x'
+    
+    const node = {
+      set: [{
+        token: firstToken,
+        card: firstPull,
+        isDecision: false
+      },{
+        token: secondToken,
+        card: secondPull,
+        isDecision: true
+      },{
+        token: thirdToken,
+        card: thirdPull,
+        isDecision: false
+      }],
+      decision: {
+        parent: snapshot,
+        trade: tx,
+      }
+    }
+
+    akashic.put(node, 'tarot')
     portGatewayDecision(swapTx)
   }
 
@@ -309,10 +466,6 @@ function Home(props) {
 }
 function ReedMode(props) {
 
-  const akashicClick = () => {
-    props.action('akashic')
-  }
-
   return(
     <>
       <h1 className='title' style={{color: 'white'}}>
@@ -336,17 +489,8 @@ function ReedMode(props) {
           </div>
         </Grid>
       </Grid>
-      <p style={{color: 'white', fontSize: '20px', cursor: 'pointer'}} onClick={() => akashicClick()}>{"> akashic <"}</p>
-    </>
-  )
-}
-
-function Akashic(props){
-  return(
-    <>
-      <h1 className='title' style={{color: 'white'}}>
-                A k a s h i c 
-      </h1>
+      <p style={{color: 'white', fontSize: '20px', cursor: 'pointer'}} onClick={() => props.action('akashic')}>{"> akashic <"}</p>
+      <p style={{color: 'white', fontSize: '20px', cursor: 'pointer'}} onClick={() => props.action('timeline')}>{"> yours <"}</p>
     </>
   )
 }
@@ -361,10 +505,23 @@ function App() {
       setAtlas(false)
   }  
 
-  const [atlas, setAtlas] = useState(false)
 
+  const [atlas, setAtlas] = useState(false)
+  const [wallet, setWallet] = useState({})
+  const [isSet, setIsSet] = useState(false)
   const [view, setView] = useState('home')
 
+  useEffect(() => {
+    if(!isSet){
+      const ak = new Akashic(true)
+      setTimeout(() => {
+        setWallet(ak.address)
+        console.log('al.address')
+        console.log(ak.address)
+        setIsSet(true)
+      },1000)
+    }
+  }, [wallet])
 
   const revealClick = () => {
     console.log('reveal')
@@ -388,8 +545,11 @@ function App() {
     case 'iching':
       viewComponent = <IChing action={setView}/>
       break;
+    case 'timeline':
+      viewComponent = <TimelineRecords wallet={wallet} action={setView}/>
+      break;
     case 'akashic':
-      viewComponent = <Akashic action={setView}/>
+      viewComponent = <AkashicRecords wallet={wallet} action={setView}/>
       break;
   }
 
