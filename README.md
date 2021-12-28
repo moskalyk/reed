@@ -14,6 +14,15 @@ current astrological systems are neatly feat into 12 houses and signs. the babyl
 ### spiral finance
 value available for swap follows a fibonnaci sequence of possibility in scaling associated decision making. e.g. $100, $200, $300, $500, $800, $2100
 
+identity can be mapped to the zodiac to create a leader assignment in leveraged collective decision making
+
+<p float="left">
+  <img src="/zodiac_well.gif" width="400" />
+  <img src="/zodiac_well.png" width="400" /> 
+</p>
+
+TODO: ponder possible gnosis chain integration with Zodiac Gnosis safe DAO governance
+
 ## 13th Zodiac Sign
 - show 12 sign cycle clock
 - add galactic 13th
