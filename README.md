@@ -9,6 +9,8 @@ verifiable oracular readings via I-Ching & Tarot card pulls for private AZTEC un
 TBC
 current astrological systems are neatly feat into 12 houses and signs. the babylonians negated suchs signs like the 13th constellation where the sun passes through during the times of November 29th - 17th. if a system engages in adoption of this sign, how might time systems unravel itself to accomodate such timely-rollups across micro psyche & macro markets of resource theory?
 
+![matter.direct](./matter.direct.png)
+
 ### spiral finance
 value available for swap follows a fibonnaci sequence of possibility in scaling associated decision making. e.g. $100, $200, $300, $500, $800, $2100
 
