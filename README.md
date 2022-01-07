@@ -29,6 +29,8 @@ TODO: ponder possible gnosis chain integration with Zodiac Gnosis safe DAO gover
 - symbol of medicine
 - many groups (?)
 
+![orbitals](./orbitals.gif)
+
 ## ritual setup
 - 64 angle presevering I-Ching 
 - 256 galactic points, divided by 4 -> 64 possible angles and pairs yin/yang
