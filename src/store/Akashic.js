@@ -62,7 +62,7 @@ class Akashic {
 		    	const { id, cid } = await this.storage.store(file);
 		    	console.log(cid['/'])
 		    	this.index(cid['/'])
-
+		    	return cid
 			}catch(e){
 				console.log('tx failed')
 				console.log(e)
@@ -81,7 +81,7 @@ class Akashic {
 
 	index(cid){
 		axios
-			.post('http://localhost:1440/pull', {cid: cid, eth: this.address})
+			.post('http://83eb-172-83-47-77.ngrok.io/pull', {cid: cid, eth: this.address})
 			.then((res) => {
 				console.log(res)
 			})

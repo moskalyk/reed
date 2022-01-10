@@ -62,45 +62,45 @@ function AkashicRecords(props){
 
   let data = []
   const [chart, setChart] = useState(null)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    setTimeout(async () => {
 
-        const records = await axios.get('http://localhost:1440/akashic')
-        console.log(records)
-        const chartComponent = <Chart
-        width={'500px'}
-        height={'300px'}
-        chartType="BarChart"
-        loader={<div>Loading Chart</div>}
-        data={[
-          ['Cards', 'Value Staked', 'Value Left'],
-          ['New York City, NY', 8175000, 8008000],
-          ['Los Angeles, CA', 3792000, 3694000],
-          ['Chicago, IL', 2695000, 2896000],
-          ['Houston, TX', 2099000, 1953000],
-          ['Philadelphia, PA', 1526000, 1517000],
-        ]}
-        options={{
-          title: 'Akashic Tarot Swap Records',
-          chartArea: { width: '50%' },
-          isStacked: true,
-          textColor: 'white',
-          colors: ['#941fff', '#ff1f5d'],
-          backgroundColor: 'black',
-          hAxis: {
-            title: 'Value in USD',
-            minValue: 0,
-          },
-          vAxis: {
-            title: 'Cards',
-          },
-        }}
-        // For tests
-        rootProps={{ 'data-testid': '3' }}
-      />
-        setChart(chartComponent)
-    },1000)
+    if(!isLoaded){
+      setTimeout(async () => {
+
+          const res = await axios.get('http://localhost:1440/akashic')
+          console.log(res.data.records)
+
+          const chartComponent = <Chart
+          width={'500px'}
+          height={'300px'}
+          chartType="BarChart"
+          loader={<div>Loading Chart</div>}
+          data={res.data.records}
+          options={{
+            title: 'Akashic Tarot Swap Records',
+            chartArea: { width: '50%' },
+            isStacked: true,
+            textColor: 'white',
+            colors: ['#941fff', '#ff1f5d'],
+            backgroundColor: 'black',
+            hAxis: {
+              title: 'Value in USD',
+              minValue: 0,
+            },
+            vAxis: {
+              title: 'Cards',
+            },
+          }}
+          // For tests
+          rootProps={{ 'data-testid': '3' }}
+        />
+          setChart(chartComponent)
+      },1000)
+
+      setIsLoaded(true)
+    }
   }, [data])
 
   return (
@@ -117,7 +117,9 @@ function AkashicRecords(props){
 
 function TimelineRecords(props){
 
-  const [timeline, setTimline] = useState([])
+  const [timeline, setTimeline] = useState([])
+  const [timelineSet, setTimelineSet] = useState(false)
+
   const records = [
   {title: 'magician', funds: 2000, src: 'https://www.trustedtarot.com/img/cards/the-magician.png'},
   {title: 'magician', funds: 2000, src: 'https://www.trustedtarot.com/img/cards/the-magician.png'},
@@ -125,22 +127,30 @@ function TimelineRecords(props){
   {title: 'magician', funds: 2000, src: 'https://www.trustedtarot.com/img/cards/the-magician.png'},
   ]
 
-  // process records
-  // get element price amounr
-  // get tarot picture
 
-  // const timeline = records.map((el) => {
-  //   return <VerticalTimelineElement
-  //       className="vertical-timeline-element--education"
-  //       date={`$${el.funds}`}
-  //       iconStyle={{ background: 'black', color: '#fff' }}
-  //       icon={'🃏'}
-  //       style={{margin: '20px'}}
-  //     >
-  //       <h3 className="vertical-timeline-element-title">{el.title}</h3>
-  //       <img style={{width: '100%'}} src={el.src}/>
-  //     </VerticalTimelineElement>
-  // })
+  useEffect(async () => {
+
+    if(!timelineSet){
+      const res = await axios(`http://localhost:1440/akashic/${props.wallet}`)
+      console.log(res)
+      const timelineRecords = res.data.records[0].set.map((record) => {
+        if(record.isDecision){
+          return <VerticalTimelineElement
+            className="vertical-timeline-element--education"
+            date={`ETH ${record.value}`}
+            iconStyle={{ background: 'black', color: '#fff' }}
+            icon={'🃏'}
+            style={{margin: '20px'}}
+          >
+            <h3 className="vertical-timeline-element-title">{record.card}</h3>
+            <img style={{width: '100%'}} src={deck[record.card]}/>
+          </VerticalTimelineElement>
+        }
+      })
+      setTimeline(timelineRecords)
+      setTimelineSet(true)
+    }
+  }, [timeline])
 
   const simulateRecords = () => {
 
@@ -161,7 +171,7 @@ function TimelineRecords(props){
         </VerticalTimelineElement>
     })
 
-    setTimline(timelineRecords)
+    setTimeline(timelineRecords)
   }
 
   return(
@@ -181,7 +191,6 @@ function TimelineRecords(props){
   )
 }
 
-let pullState = 1;
 function AtlasView (props) {
   //<Atlas data={json} activeNode={json} filter={''}/> 
   return(
@@ -196,9 +205,14 @@ function AtlasView (props) {
   )
 }
 function Tarot(props) {
+
   const [firstPull, setFirstPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
   const [secondPull, setSecondPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
   const [thirdPull, setThirdPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
+
+  const [firstTarot, setFirstTarot] = useState('')
+  const [secondTarot, setSecondTarot] = useState('')
+  const [thirdTarot, setThirdTarot] = useState('')
 
   const [firstToken, setFirstToken] = useState('WETH:DAI')
   const [secondToken, setSecondToken] = useState('WETH:UNI')
@@ -206,14 +220,24 @@ function Tarot(props) {
 
   const [loadCards, setLoadCards] = useState(false)
   const [cards, setCards] = useState({})
-  const [dropdown, setDropdown] = useState(null)
+
+  const [dropdown1, setDropdown1] = useState(null)
+  const [dropdown2, setDropdown2] = useState(null)
+  const [dropdown3, setDropdown3] = useState(null)
+
+  const [value1, setValue1] = useState(0)
+  const [value2, setValue2] = useState(0)
+  const [value3, setValue3] = useState(0)
 
   const [privacy, setPrivacy] = useState(true)
   const [trade, setTrade] = useState({})
   const [snapshot, setSnapshot] = useState('root')
   const [swapTx, setSwapTx] = useState('0x')
 
+  const [walletSet, setWalletSet] = useState(false)
   const [akashic, setAkashic] = useState({})
+
+  const [saveReady, setSaveReady] = useState(true)
 
   const layerType = () => {
     if(privacy){
@@ -235,33 +259,47 @@ function Tarot(props) {
     }
   }
 
-  const onSelect = (card) => {
+  const onSelect = (card, pullState) => {
+    console.log(card)
+    console.log(pullState)
     setPull(pullState, card)
   }
 
     useEffect(() => {
      // load cards 
+
+     if(!walletSet){
+       setWalletSet(true)
+       setAkashic(new Akashic())
+     }
+
      if(!loadCards){
 
-       setAkashic(new Akashic())
 
        axios
         .get("https://rws-cards-api.herokuapp.com/api/v1/cards/")
         .then(function (response) {
+         
 
           const cardNames = response.data.cards.map((card) => {
             return card.name
           })
 
-          const dropdownComponent = <Dropdown style={{fontSize: '11.4px; !immportant;'}}options={cardNames} onChange={onSelect} placeholder="Select a Card" />;
+          const dropdownComponent1 = <Dropdown style={{fontSize: '11.4px; !immportant;'}}options={cardNames} onChange={(e) => onSelect(e, 1)} placeholder="Select a Card" />;
+          const dropdownComponent2 = <Dropdown style={{fontSize: '11.4px; !immportant;'}}options={cardNames} onChange={(e) => onSelect(e, 2)} placeholder="Select a Card" />;
+          const dropdownComponent3 = <Dropdown style={{fontSize: '11.4px; !immportant;'}}options={cardNames} onChange={(e) => onSelect(e, 3)} placeholder="Select a Card" />;
           
-          setDropdown(dropdownComponent)
+          setDropdown1(dropdownComponent1)
+          setDropdown2(dropdownComponent2)
+          setDropdown3(dropdownComponent3)
           setLoadCards(true)
         })
      }
   })
 
-      const portGatewayDecision = async (tx) => {
+  const portGatewayDecision = async (tx) => {
+
+        console.log('firing gateway')
 
     const gateway = {
       set: [{
@@ -305,44 +343,51 @@ function Tarot(props) {
     
   }
 
-  const saveSnap = () => {
+  const saveSnap = async () => {
     const tx = '0x'
     
     const node = {
       set: [{
         token: firstToken,
-        card: firstPull,
-        isDecision: false
+        card: firstTarot,
+        isDecision: false,
+        value: value1
       },{
         token: secondToken,
-        card: secondPull,
-        isDecision: true
+        card: secondTarot,
+        isDecision: true,
+        value: value2
       },{
         token: thirdToken,
-        card: thirdPull,
-        isDecision: false
+        card: thirdTarot,
+        isDecision: false,
+        value: value3
       }],
       decision: {
         parent: snapshot,
         trade: tx,
+        eth: props.address
       }
     }
 
-    akashic.put(node, 'tarot')
-    portGatewayDecision(swapTx)
+    setSnapshot(await akashic.put(node, 'tarot'))
+    console.log('SNAPSHOT')
+    console.log(snapshot)
+    // portGatewayDecision(swapTx)
   }
 
-    const setPull = (number, tarot) => {
+    const setPull = (pullState, tarot) => {
     switch(pullState){
       case 1:
+          setFirstTarot(tarot.value)
           setFirstPull(deck[tarot.value]);
-          pullState++;
         break;
       case 2:
+          setSecondTarot(tarot.value)
           setSecondPull(deck[tarot.value]);
-          pullState++;
         break;
       case 3:
+          setThirdTarot(tarot.value)
           setThirdPull(deck[tarot.value])
         break;
       default:
@@ -396,6 +441,25 @@ function Tarot(props) {
 
   }
 
+  const onSelectAmount = (amount, state) => {
+    console.log(amount)
+    switch(state){
+      case 1:
+        setValue1(amount.value)
+        break;
+      case 2:
+        setValue2(amount.value)
+        break;
+      case 3:
+        setValue3(amount.value)
+        setSaveReady(false)
+        break;
+      default:
+        // signify error
+        console.log('something went wrong')
+    }
+  }
+
   return(
       <>  
           <h1 className='title' style={{color: 'white'}}>
@@ -404,41 +468,45 @@ function Tarot(props) {
           <p onClick={() => props.action('atlas')} style={{fontSize: '34px', cursor: 'pointer'}}>🌎</p>
           <Grid container spacing={6}>
             <Grid item m={4}>
-                {dropdown}
+                {dropdown1}
                 <br/>
                 <div className="card">
                   <img width={"90%"} height={'90%'} src={firstPull}/>
                 </div>
                 <br />
-                <p className='pair'>{firstToken} 0.3</p>
-                <Button variant="outlined" style={{background: 'wheat'}} onClick={async () => await executeTrade(firstPull)}>swap</Button>
+                <Dropdown style={{fontSize: '11.4px; !immportant;'}} options={[0.1, 0.3, 0.5, 0.8, 1.3]} onChange={(e) => onSelectAmount(e, 1)} placeholder="Select a Value" />;
+
+                <p className='pair'>{firstToken} {value1}</p>
+                <Button variant="outlined" style={{background: '#e4e0db'}} onClick={async () => await executeTrade(firstPull)}>swap</Button>
             </Grid>
 
             <Grid item m={4}>
-                {dropdown}
+                {dropdown2}
                 <br/>
                 <div className="card">
                   <img width={"90%"} height={'90%'} src={secondPull}/>
                 </div>
                 <br />
-                <p className='pair'>{secondToken} 0.3</p>
-                <Button variant="outlined" style={{background: 'wheat'}}>swap</Button>
+                <Dropdown style={{fontSize: '11.4px; !immportant;'}} options={[0.1, 0.3, 0.5, 0.8, 1.3]} onChange={(e) => onSelectAmount(e, 2)} placeholder="Select a Value" />;
+                <p className='pair'>{secondToken} {value2}</p>
+                <Button variant="outlined" style={{background: '#e4e0db'}}>swap</Button>
 
             </Grid>
 
             <Grid item m={4}>
-                {dropdown}
+                {dropdown3}
                 <br/>
                 <div className="card">
                   <img width={"90%"} height={'90%'} src={thirdPull}/>
                 </div>
                 <br />
-                <p className='pair'>{thirdToken} 0.3</p>
-                <Button variant="outlined" style={{background: 'wheat'}}>swap</Button>
+                <Dropdown style={{fontSize: '11.4px; !immportant;'}} options={[0.1, 0.3, 0.5, 0.8, 1.3]} onChange={(e) => onSelectAmount(e, 3)} placeholder="Select a Value" />;
+                <p className='pair'>{thirdToken} {value3}</p>
+                <Button variant="outlined" style={{background: '#e4e0db'}}>swap</Button>
 
             </Grid>
           </Grid>
-          <Button variant="outlined" style={{background: 'white'}} onClick={saveSnap}>save</Button>
+          <Button id="saver" disabled={saveReady} variant="outlined" style={{background: 'white'}} onClick={saveSnap}>save</Button>
           <br />
           <input type="checkbox" id="switch" onClick={layerType}/><label for="switch">Toggle</label>
         </>
@@ -537,7 +605,7 @@ function App() {
       viewComponent = <ReedMode action={setView}/>
       break;
     case 'tarot':
-      viewComponent = <Tarot action={setView}/>
+      viewComponent = <Tarot address={wallet} action={setView}/>
       break;
     case 'atlas':
       viewComponent = <AtlasView action={setView}/>
