@@ -2,21 +2,39 @@
 verifiable oracular readings via I-Ching & Tarot card pulls for private AZTEC uniswap & transparent Optimism trades in DAO governance
 
 ![reed_home](./reed_homage.gif)
+![akashic](./akashic.png)
+![timeline](./timeline.png)
 
 # thesis
 TBC
 current astrological systems are neatly feat into 12 houses and signs. the babylonians negated suchs signs like the 13th constellation where the sun passes through during the times of November 29th - 17th. if a system engages in adoption of this sign, how might time systems unravel itself to accomodate such timely-rollups across micro psyche & macro markets of resource theory?
 
+![matter.direct](./matter.direct.png)
+
+### spiral finance
+value available for swap follows a fibonnaci sequence of possibility in scaling associated decision making. e.g. $100, $200, $300, $500, $800, $2100
+
+identity can be mapped to the zodiac to create a leader assignment in leveraged collective decision making
+
+<p float="left">
+  <img src="/zodiac_well.gif" width="400" />
+  <img src="/zodiac_well.png" width="400" /> 
+</p>
+
+TODO: ponder possible gnosis chain integration with Zodiac Gnosis safe DAO governance
+
 ## 13th Zodiac Sign
-// show 12 sign cycle clock
-// add galactic 13th
-// symbol of medicine
-// many groups (?)
+- show 12 sign cycle clock
+- add galactic 13th
+- symbol of medicine
+- many groups (?)
+
+![orbitals](./orbitals.gif)
 
 ## ritual setup
-64 angle presevering I-Ching 
-256 galactic points, divided by 4 -> 64 possible angles and pairs yin/yang
-add 4-sided kaballah tree + crowns
+- 64 angle presevering I-Ching 
+- 256 galactic points, divided by 4 -> 64 possible angles and pairs yin/yang
+- add 4-sided kaballah tree + crowns to assemble squad quads
 
 ## progression
 0. enneagram personality assesment & zodiac interpretation 
