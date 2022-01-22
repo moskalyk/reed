@@ -204,6 +204,73 @@ function AtlasView (props) {
     </>
   )
 }
+
+let spread = {}
+
+function Spreads(props) {
+
+  const [isSet, setIsSet] = useState(false)
+  const [cards1, setCards1] = useState([])
+  const [cards2, setCards2] = useState([])
+  const [cards3, setCards3] = useState([])
+  // save spread
+  // load spread
+  useEffect(() => {
+    if(!isSet) {
+      const cardsComps1 = (new Array(8).fill(0)).map(() => {
+        return <Grid item s={4}>
+          <div style={{width: '50px', height: '80px'}}className="card">
+            <img width={"90%"} height={'90%'} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>
+          </div>
+        </Grid>
+      })
+
+      const cardsComps2 = (new Array(8).fill(0)).map(() => {
+        return <Grid item s={4}>
+          <div style={{width: '50px', height: '80px'}}className="card">
+            <img width={"90%"} height={'90%'} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>
+          </div>
+        </Grid>
+      })
+
+      const cardsComps3 = (new Array(8).fill(0)).map(() => {
+        return <Grid item s={4}>
+          <div style={{width: '50px', height: '80px'}}className="card">
+            <img width={"90%"} height={'90%'} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>
+          </div>
+        </Grid>
+      })
+      setCards1(cardsComps1)
+      setCards2(cardsComps2)
+      setCards3(cardsComps3)
+      setIsSet(true)
+    }
+  },[cards1, cards2, cards3])
+
+  return (<>
+    <h1 className='title' style={{color: 'white'}}>
+              S p r e a d
+    </h1>
+    <br />
+    <br />
+    <Grid container spacing={2}>
+      <div clssName='card-row'>
+        {cards1}
+      </div>
+      <br/>
+      <br/>
+      <div clssName='card-row'>
+        {cards2}
+      </div>
+      <br/>
+      <br/>
+      <div clssName='card-row'>
+        {cards3}
+      </div>
+    </Grid>
+  </>)
+}
+
 function Tarot(props) {
 
   const [firstPull, setFirstPull] = useState('https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn')
@@ -605,7 +672,8 @@ function App() {
       viewComponent = <ReedMode action={setView}/>
       break;
     case 'tarot':
-      viewComponent = <Tarot address={wallet} action={setView}/>
+      viewComponent = <Spreads address={wallet} action={setView}/>
+      // viewComponent = <Tarot address={wallet} action={setView}/>
       break;
     case 'atlas':
       viewComponent = <AtlasView action={setView}/>

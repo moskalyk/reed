@@ -10,6 +10,11 @@
   margin: 20px;
 }
 
+.card-row {
+  width: 500px;
+  margin: auto;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
