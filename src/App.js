@@ -205,9 +205,17 @@ function AtlasView (props) {
   )
 }
 
-let spread = {}
+let spreadSet = {
+  "9-Card": [[0,1,0,0,0,0,0,0],[1,1,1,0,1,1,1,1],[0,1,0,0,0,0,0,0]],
+  "Celtic Cross": [[1,1,0,0,1,1,0,0],[1,1,1,0,1,1,0,0],[0,1,0,0,1,0,0,0]],
+  "3-Card": [[0,0,0,0,0,0,0,0],[0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,0]],
+  "default": [[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1]]
+}
 
 function Spreads(props) {
+
+  const [spreadNames, setSpreadNames] = useState(["9-Card", "Celtic Cross", "3-Card"])
+  const [spread, setSpread] = useState('default')
 
   const [isSet, setIsSet] = useState(false)
   const [cards1, setCards1] = useState([])
@@ -215,34 +223,50 @@ function Spreads(props) {
   const [cards3, setCards3] = useState([])
   // save spread
   // load spread
-  useEffect(() => {
-    if(!isSet) {
-      const cardsComps1 = (new Array(8).fill(0)).map(() => {
-        return <Grid item s={4}>
-          <div style={{width: '50px', height: '80px'}}className="card">
-            <img width={"90%"} height={'90%'} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>
+  const onSelect = (row, i) => {
+    console.log(row)
+    console.log(i)
+  }
+
+  const onDropdownSelect = (e) => {
+    console.log(e)
+    setSpread(e.value)
+    setIsSet(false)
+    setCards()
+  }
+
+  const setCards = () => {
+      const cardsComps1 = (new Array(8).fill(0)).map((el, i) => {
+        return <div className="card-block">
+          <div style={{width: '50px', height: '80px'}} className="card">
+            {spreadSet[spread][0][i] == 0 ? '': <img width={"90%"} height={'90%'} onClick={() => onSelect(1, i)} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>}
           </div>
-        </Grid>
+        </div>
       })
 
-      const cardsComps2 = (new Array(8).fill(0)).map(() => {
-        return <Grid item s={4}>
+      const cardsComps2 = (new Array(8).fill(0)).map((el, i) => {
+        return <div className="card-block">
           <div style={{width: '50px', height: '80px'}}className="card">
-            <img width={"90%"} height={'90%'} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>
+            {spreadSet[spread][1][i] == 0 ? '': <img width={"90%"} height={'90%'} onClick={() => onSelect(1, i)} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>}
           </div>
-        </Grid>
+        </div>
       })
 
-      const cardsComps3 = (new Array(8).fill(0)).map(() => {
-        return <Grid item s={4}>
+      const cardsComps3 = (new Array(8).fill(0)).map((el, i) => {
+        return <div className="card-block">
           <div style={{width: '50px', height: '80px'}}className="card">
-            <img width={"90%"} height={'90%'} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>
+            {spreadSet[spread][2][i] == 0 ? '': <img width={"90%"} height={'90%'} onClick={() => onSelect(1, i)} src={'https://gateway.pinata.cloud/ipfs/QmSoKLY9n55Hps7NhGMtQMk5V9PUwcmndfmY1uLRJzT8Yn'}/>}
           </div>
-        </Grid>
+        </div>
       })
       setCards1(cardsComps1)
       setCards2(cardsComps2)
       setCards3(cardsComps3)
+  }
+
+  useEffect(() => {
+    if(!isSet) {
+      setCards()
       setIsSet(true)
     }
   },[cards1, cards2, cards3])
@@ -251,20 +275,21 @@ function Spreads(props) {
     <h1 className='title' style={{color: 'white'}}>
               S p r e a d
     </h1>
+    <Dropdown style={{fontSize: '11.4px; !immportant;', fontFamily: 'Gothic'}}options={spreadNames} onChange={(e) => onDropdownSelect(e)} placeholder="S e l e c t" />
     <br />
     <br />
-    <Grid container spacing={2}>
-      <div clssName='card-row'>
+    <Grid alignItems="center" justifyContent="center" direction="column" container spacing={2}>
+      <div clssName='card-row' style={{width: '100%'}}>
         {cards1}
       </div>
       <br/>
       <br/>
-      <div clssName='card-row'>
+      <div clssName='card-row' style={{width: '100%'}}>
         {cards2}
       </div>
       <br/>
       <br/>
-      <div clssName='card-row'>
+      <div clssName='card-row' style={{width: '100%'}}>
         {cards3}
       </div>
     </Grid>

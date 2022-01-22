@@ -11,8 +11,16 @@
 }
 
 .card-row {
-  width: 500px;
-  margin: auto;
+  margin: 10px;
+  width: 100%;
+}
+
+
+
+.card-block {
+  width: ;
+  float: left;
+  margin: 10px;
 }
 
 .App-logo {
